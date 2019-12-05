@@ -1,4 +1,4 @@
-package net.schuman.JSONJavaLoggerConsoleApplicationProject.JSONJavaLoggerConsoleApplication;
+package net.Schuman.JsonJavaLoggerConsoleApplicationProject.JsonJavaLoggerConsoleApplication;
 
 /**
  * Hello world!

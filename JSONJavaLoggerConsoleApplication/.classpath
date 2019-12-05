@@ -28,5 +28,6 @@
 			<attribute name="javadoc_location" value="file:/C:/Users/0X80007D0/eclipse-workspace/JSONJavaLoggerConsoleApplicationProject/library/commons-configuration2-2.4/apidocs/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

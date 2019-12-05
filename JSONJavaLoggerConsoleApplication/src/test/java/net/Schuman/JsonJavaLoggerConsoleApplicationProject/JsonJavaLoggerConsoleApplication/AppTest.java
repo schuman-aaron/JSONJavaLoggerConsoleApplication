@@ -1,4 +1,4 @@
-package net.schuman.JSONJavaLoggerConsoleApplicationProject.JSONJavaLoggerConsoleApplication;
+package net.Schuman.JsonJavaLoggerConsoleApplicationProject.JsonJavaLoggerConsoleApplication;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
