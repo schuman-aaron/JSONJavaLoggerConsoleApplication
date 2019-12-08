@@ -9,6 +9,7 @@ import net.Schuman.JsonJavaLoggerConsoleApplicationProject.JsonJavaLoggerConsole
 
 import static net.Schuman.JsonJavaLoggerConsoleApplicationProject.JsonJavaLoggerConsoleApplication.TestConstants.*;
 
+import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -29,6 +30,7 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.internal.verification.MockAwareVerificationMode;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.when;
 
@@ -90,14 +92,26 @@ public class BaseFormatterTest{
 	@Test
 	public void testFormatSuccessful() {
 		defaultMockSettings();
+		try {
+		PowerMockito.doReturn(LocalDateTimeProxy.now()).when(LocalDateTimeProxy.class, "now");
+		//when(LocalDateTimeProxy.now()).thenReturn(LocalDateTime.parse(getConstantDatetime(), getDateTimeFormat()));
+		PowerMockito.doReturn(DateTimeFormatter.ofPattern(getDateTimeStringFormat())).when(DateTimeFormatterProxy.class, "ofPattern", anyString());
+		//when(DateTimeFormatterProxy.ofPattern(getDateTimeStringFormat())).thenReturn(DateTimeFormatter.ofPattern(getDateTimeStringFormat()));
+		PowerMockito.doReturn(getConstantDatetime()).when(LocalDateTimeProxy.class, "format", any(DateTimeFormatter.class));
+		}
+		catch(Exception e) {
+			throw new AssertionError(e);
+		}
 		result = testFormatter.format(mockRecord);
-		assertEquals(expected, result, "\nUnexpected value returned; Expected: \n" + expected + "\n Actual:\n" + result);
+		assertTrue("\nUnexpected value returned; Expected: \n" + expected + "\n Actual:\n" + result, expected.contentEquals(result));
 		//verify(mockDateTime, times(1)).now();
-		PowerMockito.verifyStatic(LocalDateTimeProxy.class, times(1));
+		//PowerMockito.verifyStatic(LocalDateTimeProxy.class, times(1));
 		LocalDateTimeProxy.now();
 		//verify(mockFormatter, times(1)).ofPattern(anyString());
-		PowerMockito.verifyStatic(DateTimeFormatterProxy.class, times(1));
+		//PowerMockito.verifyStatic(DateTimeFormatterProxy.class, times(1));
 		DateTimeFormatterProxy.ofPattern(getDateTimeStringFormat());
+		//PowerMockito.verifyStatic(LocalDateTimeProxy.class, times(1));
+		LocalDateTimeProxy.format(DateTimeFormatter.ofPattern(getDateTimeStringFormat()));
 		verify(mockRecord, times(1)).getLevel();
 		verify(mockRecord, times(1)).getMessage();
 		verify(mockRecord, times(1)).getThreadID();
@@ -105,6 +119,60 @@ public class BaseFormatterTest{
 		verify(mockRecord, times(1)).getSourceMethodName();
 	}
 
+	@Test(expected = DateTimeException.class)
+	public void testFormatFailureDateTime() {
+		defaultMockSettings();
+		try {
+			PowerMockito.doReturn(LocalDateTimeProxy.now()).when(LocalDateTimeProxy.class, "now");
+			PowerMockito.doReturn(DateTimeFormatter.ofPattern(getDateTimeStringFormat())).when(DateTimeFormatterProxy.class, "ofPattern", anyString());
+			PowerMockito.doThrow(new DateTimeException(getDefaultString())).when(LocalDateTimeProxy.class, "format", any(DateTimeFormatter.class));
+			result = testFormatter.format(mockRecord);
+		}
+		catch(Exception e) {
+			//PowerMockito.verifyStatic(LocalDateTimeProxy.class, times(1));
+			LocalDateTimeProxy.now();
+			//PowerMockito.verifyStatic(DateTimeFormatterProxy.class, times(1));
+			DateTimeFormatterProxy.ofPattern(getDateTimeStringFormat());
+			try {
+				PowerMockito.doReturn(null).when(LocalDateTimeProxy.class, "format", any(DateTimeFormatter.class));
+			}
+			catch(Exception e2) {
+				throw new AssertionError(e2);
+			}
+			//PowerMockito.verifyStatic(LocalDateTimeProxy.class, times(1));
+			LocalDateTimeProxy.format(DateTimeFormatter.ofPattern(getDateTimeStringFormat()));
+			throw new DateTimeException(e.getMessage());
+		}
+		throw new AssertionError("Error: No exception was thrown");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testFormatFailureIllegalArgument() {
+		defaultMockSettings();
+		try {
+			PowerMockito.doReturn(LocalDateTimeProxy.now()).when(LocalDateTimeProxy.class, "now");
+			PowerMockito.doThrow(new IllegalArgumentException()).when(DateTimeFormatterProxy.class, "ofPattern", anyString());
+			PowerMockito.doReturn(getConstantDatetime()).when(LocalDateTimeProxy.class, "format", any(DateTimeFormatter.class));
+			result = testFormatter.format(mockRecord);
+		}
+		catch(Exception e) {
+			//PowerMockito.verifyStatic(LocalDateTimeProxy.class, times(1));
+			LocalDateTimeProxy.now();
+			try {
+				PowerMockito.doReturn(null).when(LocalDateTimeProxy.class, "format", any(DateTimeFormatter.class));
+			}
+			catch(Exception e2) {
+				throw new AssertionError(e2);
+			}
+			//PowerMockito.verifyStatic(DateTimeFormatterProxy.class, times(1));
+			DateTimeFormatterProxy.ofPattern(getDateTimeStringFormat());
+			//PowerMockito.verifyStatic(LocalDateTimeProxy.class, times(1));
+			LocalDateTimeProxy.format(DateTimeFormatter.ofPattern(getDateTimeStringFormat()));
+			throw new IllegalArgumentException(e.getMessage());
+		}
+		throw new AssertionError("Error: No exception was thrown");
+	}
+	
 	@SuppressWarnings("static-access")
 	private void defaultMockSettings() {
 		try {
@@ -112,17 +180,12 @@ public class BaseFormatterTest{
 		mockDateTime = mock(LocalDateTime.class);
 		mockFormatter = mock(DateTimeFormatter.class);
 		*/
-		expected = "\r\n" + LocalDateTime.parse(getConstantDatetime(), getDateTimeFormat()) + getFormattingCharacter() + 
+		expected = "\r\n" + getConstantDatetime() + getFormattingCharacter() + 
 				Level.FINE + getFormattingCharacter() + 
+				getDefaultInt() + getFormattingCharacter() +
 				getDefaultString() + getFormattingCharacter() + 
-				getDefaultInt() + getFormattingCharacter() + 
 				getDefaultString() + getFormattingCharacter() + 
-				getDefaultString() + getFormattingCharacter() +
 				getDefaultString();
-		PowerMockito.doReturn(LocalDateTime.parse(getConstantDatetime(), getDateTimeFormat())).when(LocalDateTimeProxy.class, "now");
-		//when(LocalDateTimeProxy.now()).thenReturn(LocalDateTime.parse(getConstantDatetime(), getDateTimeFormat()));
-		PowerMockito.doReturn(DateTimeFormatter.ofPattern(getDateTimeStringFormat())).when(DateTimeFormatterProxy.class, "ofPattern", anyString());
-		//when(DateTimeFormatterProxy.ofPattern(getDateTimeStringFormat())).thenReturn(DateTimeFormatter.ofPattern(getDateTimeStringFormat()));
 		when(mockRecord.getLevel()).thenReturn(Level.FINE);
 		when(mockRecord.getMessage()).thenReturn(getDefaultString());
 		when(mockRecord.getThreadID()).thenReturn(getDefaultInt());
