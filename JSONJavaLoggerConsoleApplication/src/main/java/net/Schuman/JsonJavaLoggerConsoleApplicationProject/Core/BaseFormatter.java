@@ -1,11 +1,13 @@
-package net.Schuman.JsonJavaLoggerConsoleApplicationProject.JsonJavaLoggerConsoleApplication;
+package net.Schuman.JsonJavaLoggerConsoleApplicationProject.Core;
+
+import static net.Schuman.JsonJavaLoggerConsoleApplicationProject.Core.Constants.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.logging.LogRecord;
-import static net.Schuman.JsonJavaLoggerConsoleApplicationProject.JsonJavaLoggerConsoleApplication.Constants.*;
+import java.util.logging.Formatter;
 
-public class BaseFormatter {
+public class BaseFormatter extends Formatter {
 	
 	public String format(LogRecord record) {
 		return "\r\n" +

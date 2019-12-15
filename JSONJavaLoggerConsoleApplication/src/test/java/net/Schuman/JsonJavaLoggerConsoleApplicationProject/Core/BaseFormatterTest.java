@@ -1,13 +1,4 @@
-package net.Schuman.JsonJavaLoggerConsoleApplicationProject.JsonJavaLoggerConsoleApplication;
-
-/*
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-*/
-import net.Schuman.JsonJavaLoggerConsoleApplicationProject.JsonJavaLoggerConsoleApplication.BaseFormatter;
-
-import static net.Schuman.JsonJavaLoggerConsoleApplicationProject.JsonJavaLoggerConsoleApplication.TestConstants.*;
+package net.Schuman.JsonJavaLoggerConsoleApplicationProject.Core;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;
@@ -29,6 +20,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.internal.verification.MockAwareVerificationMode;
 
+import static net.Schuman.JsonJavaLoggerConsoleApplicationProject.Core.TestConstants.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
@@ -38,6 +30,10 @@ import static org.mockito.Mockito.when;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
+
+import net.Schuman.JsonJavaLoggerConsoleApplicationProject.Core.BaseFormatter;
+import net.Schuman.JsonJavaLoggerConsoleApplicationProject.Core.DateTimeFormatterProxy;
+import net.Schuman.JsonJavaLoggerConsoleApplicationProject.Core.LocalDateTimeProxy;
 
 
 @RunWith(PowerMockRunner.class)

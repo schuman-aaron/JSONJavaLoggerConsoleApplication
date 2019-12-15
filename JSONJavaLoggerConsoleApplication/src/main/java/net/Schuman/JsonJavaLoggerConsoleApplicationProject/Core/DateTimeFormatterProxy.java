@@ -1,4 +1,4 @@
-package net.Schuman.JsonJavaLoggerConsoleApplicationProject.JsonJavaLoggerConsoleApplication;
+package net.Schuman.JsonJavaLoggerConsoleApplicationProject.Core;
 
 import java.time.format.DateTimeFormatter;
 

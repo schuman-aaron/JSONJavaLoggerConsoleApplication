@@ -1,4 +1,4 @@
-package net.Schuman.JsonJavaLoggerConsoleApplicationProject.JsonJavaLoggerConsoleApplication;
+package net.Schuman.JsonJavaLoggerConsoleApplicationProject.Core;
 
 public class Constants {
 	private static final String FORMATTING_CHARACTER = "    \t";
