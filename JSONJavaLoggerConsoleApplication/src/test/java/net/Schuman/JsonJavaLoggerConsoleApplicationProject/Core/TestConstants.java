@@ -1,5 +1,6 @@
 package net.Schuman.JsonJavaLoggerConsoleApplicationProject.Core;
 
+import java.net.URI;
 import java.time.format.DateTimeFormatter;
 
 public class TestConstants {
@@ -14,6 +15,8 @@ public class TestConstants {
 	private static final String CONSTANT_METHOD_NAME = "testMethodName"; 
 	
 	private static final int DEFAULT_INT = 2;
+	
+	private static final String[] DEFAULT_STRING_ARRAY = { DEFAULT_STRING};
 	
 	private static final String FORMATTING_CHARACTER = "    \t";
 	
@@ -47,5 +50,9 @@ public class TestConstants {
 
 	public static String getConstantMethodName() {
 		return CONSTANT_METHOD_NAME;
+	}
+
+	public static String[] getDefaultStringArray() {
+		return DEFAULT_STRING_ARRAY;
 	}
 }
