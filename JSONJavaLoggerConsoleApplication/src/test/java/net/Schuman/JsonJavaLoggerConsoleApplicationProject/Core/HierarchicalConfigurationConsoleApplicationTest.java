@@ -17,6 +17,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import net.Schuman.JsonJavaLoggerConsoleApplicationProject.Core.HierarchicalConfigurationConsoleApplication;
 import net.Schuman.JsonJavaLoggerConsoleApplicationProject.Core.Constants;
 
+import static net.Schuman.JsonJavaLoggerConsoleApplicationProject.Core.Constants.getInvalidPathErrorCode;
 import static net.Schuman.JsonJavaLoggerConsoleApplicationProject.Core.TestConstants.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -25,6 +26,8 @@ import static org.mockito.Mockito.when;
 
 import java.io.File;
 import java.net.URI;
+import java.nio.file.InvalidPathException;
+import java.security.InvalidParameterException;
 
 import javax.naming.ConfigurationException;
 
@@ -74,9 +77,11 @@ public class HierarchicalConfigurationConsoleApplicationTest{
 			MockitoAnnotations.initMocks(testApplication);
 		}
 		
+		// [start] ConfigureBuilder
+		//TODO: Exceptions need to change the return code.
 		@Test
 		public void testConfigureBuilderSuccess() {
-			defaultMockSettings();
+			defaultConfigureBuilderMockSettings();
 			try {
 				testApplication.configureBuilder(getDefaultStringArray());
 			} catch (ConfigurationException e) {
@@ -97,7 +102,7 @@ public class HierarchicalConfigurationConsoleApplicationTest{
 		
 		@Test
 		public void testConfigureBuilderFailureConfiguration() {
-			defaultMockSettings();
+			defaultConfigureBuilderMockSettings();
 			try {
 				testApplication.configureBuilder(tooManyArguments);
 				throw new AssertionError("Unexpected successful execution");
@@ -118,10 +123,110 @@ public class HierarchicalConfigurationConsoleApplicationTest{
 		
 		@Test
 		public void testConfigureBuilderFailureInvalidPath() {
-			
+			defaultConfigureBuilderMockSettings();
+			PowerMockito.when(PathsProxy.get(anyString())).thenThrow(new InvalidPathException(getDefaultString(), getDefaultString()));
+			try {
+				testApplication.configureBuilder(getDefaultStringArray());
+				throw new AssertionError("Unexpected successful execution");
+			} catch (ConfigurationException e) {
+				throw new AssertionError(e);
+			} catch (InvalidPathException e) {
+				assertTrue("Unexpected return code provided\nExpected: " + Constants.getInvalidPathErrorCode() + "\n Actual: " + testApplication.getReturnCode(), Constants.getInvalidPathErrorCode() == testApplication.getReturnCode());
+				verify(mockBuilder, times(0)).configure(any(BuilderParameters.class));
+				verify(mockParameters, times(1)).hierarchical();
+				verify(mockHierarchicalParameters, times(0)).setFile(any(File.class));
+				verify(mockPaths, times(0)).resolve(anyString());
+				//PowerMockito.verifyStatic(SystemProxy.class, times(1));
+				SystemProxy.getProperty(getDefaultString());
+				verify(mockPaths, times(0)).normalize();
+				verify(mockPaths, times(0)).toFile();
+			}
 		}
 		
-		public void defaultMockSettings() {
+		@Test
+		public void testConfigureBuilderFailureUnsupportedOperation() {
+			defaultConfigureBuilderMockSettings();
+			when(mockPaths.toFile()).thenThrow(new UnsupportedOperationException());
+			try {
+				testApplication.configureBuilder(getDefaultStringArray());
+				throw new AssertionError("Unexpected successful execution");
+			} catch (ConfigurationException e) {
+				throw new AssertionError(e);
+			} catch (UnsupportedOperationException e) {
+				assertTrue("Unexpected return code provided\nExpected: " + Constants.getUnsupportedOperationErrorCode() + "\n Actual: " + testApplication.getReturnCode(), Constants.getUnsupportedOperationErrorCode() == testApplication.getReturnCode());
+				verify(mockBuilder, times(0)).configure(any(BuilderParameters.class));
+				verify(mockParameters, times(1)).hierarchical();
+				verify(mockHierarchicalParameters, times(0)).setFile(any(File.class));
+				verify(mockPaths, times(1)).resolve(anyString());
+				verify(mockPaths, times(1)).normalize();
+				verify(mockPaths, times(1)).toFile();
+				//PowerMockito.verifyStatic(PathsProxy.class, times(1));
+				PathsProxy.get(getDefaultString());
+				//PowerMockito.verifyStatic(SystemProxy.class, times(1));
+				SystemProxy.getProperty(getDefaultString());
+			}
+		}
+		
+		@Test
+		public void testConfigureBuilderFailureSecurity() {
+			defaultConfigureBuilderMockSettings();
+			PowerMockito.when(SystemProxy.getProperty(anyString())).thenThrow(new SecurityException());
+			try {
+				testApplication.configureBuilder(getDefaultStringArray());
+				throw new AssertionError("Unexpected successful execution");
+			} catch (ConfigurationException e) {
+				throw new AssertionError(e);
+			} catch (SecurityException e) {
+				assertTrue("Unexpected return code provided\nExpected: " + Constants.getSecurityErrorCode() + "\n Actual: " + testApplication.getReturnCode(), Constants.getSecurityErrorCode() == testApplication.getReturnCode());
+				verify(mockBuilder, times(0)).configure(any(BuilderParameters.class));
+				verify(mockParameters, times(1)).hierarchical();
+				verify(mockHierarchicalParameters, times(0)).setFile(any(File.class));
+				verify(mockPaths, times(0)).resolve(anyString());
+				verify(mockPaths, times(0)).normalize();
+				verify(mockPaths, times(0)).toFile();
+			}
+		}
+		
+		@Test
+		public void testConfigureBuilderFailureNullPointer() {
+			defaultConfigureBuilderMockSettings();
+			PowerMockito.when(SystemProxy.getProperty(anyString())).thenThrow(new NullPointerException());
+			try {
+				testApplication.configureBuilder(getDefaultStringArray());
+				throw new AssertionError("Unexpected successful execution");
+			} catch (ConfigurationException e) {
+				throw new AssertionError(e);
+			} catch (NullPointerException e) {
+				verify(mockBuilder, times(0)).configure(any(BuilderParameters.class));
+				verify(mockParameters, times(1)).hierarchical();
+				verify(mockHierarchicalParameters, times(0)).setFile(any(File.class));
+				verify(mockPaths, times(0)).resolve(anyString());
+				verify(mockPaths, times(0)).normalize();
+				verify(mockPaths, times(0)).toFile();
+			}
+		}
+		
+		@Test
+		public void testConfigureBuilderFailureIllegalArgument() {
+			defaultConfigureBuilderMockSettings();
+			PowerMockito.when(SystemProxy.getProperty(anyString())).thenThrow(new IllegalArgumentException());
+			try {
+				testApplication.configureBuilder(getDefaultStringArray());
+				throw new AssertionError("Unexpected successful execution");
+			} catch (ConfigurationException e) {
+				throw new AssertionError(e);
+			} catch (IllegalArgumentException e) {
+				assertTrue("Unexpected return code provided\nExpected: " + Constants.getIllegalArgumentErrorCode() + "\n Actual: " + testApplication.getReturnCode(), Constants.getIllegalArgumentErrorCode() == testApplication.getReturnCode());
+				verify(mockBuilder, times(0)).configure(any(BuilderParameters.class));
+				verify(mockParameters, times(1)).hierarchical();
+				verify(mockHierarchicalParameters, times(0)).setFile(any(File.class));
+				verify(mockPaths, times(0)).resolve(anyString());
+				verify(mockPaths, times(0)).normalize();
+				verify(mockPaths, times(0)).toFile();
+			}
+		}
+		
+		public void defaultConfigureBuilderMockSettings() {
 			when(mockBuilder.configure(any(BuilderParameters.class))).thenReturn(mockBuilder);
 			when(mockParameters.hierarchical()).thenReturn(mockHierarchicalParameters);
 			when(mockHierarchicalParameters.setFile(any(File.class))).thenReturn(mockHierarchicalParameters);
@@ -131,4 +236,31 @@ public class HierarchicalConfigurationConsoleApplicationTest{
 			when(mockPaths.toFile()).thenReturn(mockFile);
 			PowerMockito.when(SystemProxy.getProperty(anyString())).thenReturn(getDefaultString());
 		}
+		// [end] ConfigureBuilder
+		
+		// [start] InitializeConfiguration
+		@Test
+		public void testInitializeConfigurationSuccess() {
+			try {
+				when(mockBuilder.getConfiguration()).thenReturn(mockApplicationConfiguration);
+				testApplication.initializeConfiguration();
+				verify(mockBuilder, times(1)).getConfiguration();
+			} catch (org.apache.commons.configuration2.ex.ConfigurationException e) {
+				throw new AssertionError();
+			}
+		}
+		
+		/*
+		@Test
+		public void testInitializeConfigurationFailureConfiguration() {
+			try {
+				when(mockBuilder.getConfiguration()).thenThrow(new org.apache.commons.configuration2.ex.ConfigurationException());
+				testApplication.initializeConfiguration();
+				throw new AssertionError("Unexpected successful execution");
+			} catch (org.apache.commons.configuration2.ex.ConfigurationException e) {
+				assertTrue("Unexpected return code provided\nExpected:" + Constants.getConfigurationErrorCode() + "\nActual:" + testApplication.getReturnCode(), testApplication.getReturnCode() == Constants.getConfigurationErrorCode());
+			}
+		}
+		*/
+		// [end] InitializeConfiguration
 }

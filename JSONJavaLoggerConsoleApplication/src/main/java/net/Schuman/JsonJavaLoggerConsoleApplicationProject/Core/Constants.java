@@ -14,6 +14,16 @@ public class Constants {
 	
 	
 	private static final int INPUT_ARGUMENT_ERROR_CODE = 10;
+	
+	private static final int INVALID_PATH_ERROR_CODE = 20;
+	
+	private static final int UNSUPPORTED_OPERATION_ERROR_CODE = 30;
+	
+	private static final int SECURITY_ERROR_CODE = 40;
+	
+	private static final int ILLEGAL_ARGUMENT_ERROR_CODE = 50;
+	
+	private static final int CONFIGURATION_ERROR_CODE = 60;
 
 	public static String getFormattingCharacter() {
 		return FORMATTING_CHARACTER;
@@ -37,5 +47,25 @@ public class Constants {
 
 	public static int getInputArgumentConfigurationFileIndex() {
 		return INPUT_ARGUMENT_CONFIGURATION_FILE_INDEX;
+	}
+
+	public static int getConfigurationErrorCode() {
+		return CONFIGURATION_ERROR_CODE;
+	}
+
+	public static int getInvalidPathErrorCode() {
+		return INVALID_PATH_ERROR_CODE;
+	}
+
+	public static int getUnsupportedOperationErrorCode() {
+		return UNSUPPORTED_OPERATION_ERROR_CODE;
+	}
+
+	public static int getSecurityErrorCode() {
+		return SECURITY_ERROR_CODE;
+	}
+
+	public static int getIllegalArgumentErrorCode() {
+		return ILLEGAL_ARGUMENT_ERROR_CODE;
 	}
 }

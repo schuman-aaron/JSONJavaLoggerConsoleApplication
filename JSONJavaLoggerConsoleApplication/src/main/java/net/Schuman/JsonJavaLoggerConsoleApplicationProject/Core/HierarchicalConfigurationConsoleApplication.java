@@ -7,6 +7,8 @@ import org.apache.commons.configuration2.builder.fluent.Parameters;
 
 import static net.Schuman.JsonJavaLoggerConsoleApplicationProject.Core.Constants.*;
 
+import java.nio.file.InvalidPathException;
+
 import javax.naming.ConfigurationException;
 
 public abstract class HierarchicalConfigurationConsoleApplication <T extends FileBasedConfiguration> implements IConsoleApplication {
@@ -29,18 +31,35 @@ public abstract class HierarchicalConfigurationConsoleApplication <T extends Fil
 		parameters = new Parameters();
 	}
 	
-	
 	protected void configureBuilder(String[] args) throws ConfigurationException {
 		if(args.length != 1)
 		{
 			returnCode = getInputArgumentErrorCode();
 			throw new ConfigurationException("Unexpected number of input arguments was provided\n Expected: " + getInputArgumentExpectedValue() + "\nActual: " + args.length);
 		}
-		builder.configure(parameters.hierarchical().setFile(PathsProxy.get(SystemProxy.getProperty(getExecutionDirectory())).resolve(args[getInputArgumentConfigurationFileIndex()]).normalize().toFile()));
+		try {
+			builder.configure(parameters.hierarchical().setFile(PathsProxy.get(SystemProxy.getProperty(getExecutionDirectory())).resolve(args[getInputArgumentConfigurationFileIndex()]).normalize().toFile()));
+		} catch(InvalidPathException e) {
+			returnCode = getInvalidPathErrorCode();
+			throw e;
+		} catch(UnsupportedOperationException e) {
+			returnCode = getUnsupportedOperationErrorCode();
+			throw e;
+		} catch(SecurityException e) {
+			returnCode = getSecurityErrorCode();
+			throw e;
+		} catch(IllegalArgumentException e) {
+			returnCode = getIllegalArgumentErrorCode();
+			throw e;
+		}
 	}
 	
 	protected void initializeConfiguration() {
-		
+		try {
+			applicationConfiguration = builder.getConfiguration();
+		} catch (org.apache.commons.configuration2.ex.ConfigurationException e) {
+			
+		}
 	}
 	
 	public FileBasedConfigurationBuilder<T> getBuilder() {
