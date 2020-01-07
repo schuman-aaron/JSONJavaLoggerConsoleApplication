@@ -12,6 +12,7 @@ public class Constants {
 	
 	private static final int INPUT_ARGUMENT_CONFIGURATION_FILE_INDEX = 0;
 	
+	// [start] Error Codes
 	
 	private static final int INPUT_ARGUMENT_ERROR_CODE = 10;
 	
@@ -21,9 +22,13 @@ public class Constants {
 	
 	private static final int SECURITY_ERROR_CODE = 40;
 	
-	private static final int ILLEGAL_ARGUMENT_ERROR_CODE = 50;
+	private static final int NULL_POINTER_ERROR_CODE = 50;
 	
-	private static final int CONFIGURATION_ERROR_CODE = 60;
+	private static final int ILLEGAL_ARGUMENT_ERROR_CODE = 60;
+	
+	private static final int CONFIGURATION_ERROR_CODE = 70;
+	
+	// [end] Error Codes
 
 	public static String getFormattingCharacter() {
 		return FORMATTING_CHARACTER;
@@ -67,5 +72,9 @@ public class Constants {
 
 	public static int getIllegalArgumentErrorCode() {
 		return ILLEGAL_ARGUMENT_ERROR_CODE;
+	}
+
+	public static int getNullPointerErrorCode() {
+		return NULL_POINTER_ERROR_CODE;
 	}
 }

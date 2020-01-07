@@ -51,14 +51,18 @@ public abstract class HierarchicalConfigurationConsoleApplication <T extends Fil
 		} catch(IllegalArgumentException e) {
 			returnCode = getIllegalArgumentErrorCode();
 			throw e;
+		} catch(NullPointerException e) {
+			returnCode =  getNullPointerErrorCode();
+			throw e;
 		}
 	}
 	
-	protected void initializeConfiguration() {
+	protected void initializeConfiguration() throws org.apache.commons.configuration2.ex.ConfigurationException {
 		try {
 			applicationConfiguration = builder.getConfiguration();
 		} catch (org.apache.commons.configuration2.ex.ConfigurationException e) {
-			
+			returnCode = getConfigurationErrorCode();
+			throw e;
 		}
 	}
 	

@@ -197,6 +197,7 @@ public class HierarchicalConfigurationConsoleApplicationTest{
 			} catch (ConfigurationException e) {
 				throw new AssertionError(e);
 			} catch (NullPointerException e) {
+				assertTrue("Unexpected return code provided\nExpected: " + Constants.getNullPointerErrorCode() + "\n Actual: " + testApplication.getReturnCode(), Constants.getNullPointerErrorCode() == testApplication.getReturnCode());
 				verify(mockBuilder, times(0)).configure(any(BuilderParameters.class));
 				verify(mockParameters, times(1)).hierarchical();
 				verify(mockHierarchicalParameters, times(0)).setFile(any(File.class));
@@ -250,7 +251,7 @@ public class HierarchicalConfigurationConsoleApplicationTest{
 			}
 		}
 		
-		/*
+		
 		@Test
 		public void testInitializeConfigurationFailureConfiguration() {
 			try {
@@ -261,6 +262,7 @@ public class HierarchicalConfigurationConsoleApplicationTest{
 				assertTrue("Unexpected return code provided\nExpected:" + Constants.getConfigurationErrorCode() + "\nActual:" + testApplication.getReturnCode(), testApplication.getReturnCode() == Constants.getConfigurationErrorCode());
 			}
 		}
-		*/
+		
+		
 		// [end] InitializeConfiguration
 }
