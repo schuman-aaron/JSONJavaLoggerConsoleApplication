@@ -16,7 +16,7 @@ public abstract class HierarchicalConfigurationConsoleApplication <T extends Fil
 	private FileBasedConfigurationBuilder<T> builder;
 	private Parameters parameters;
 	private T applicationConfiguration;
-	private int returnCode;
+	private int returnCode = getSuccessCode();
 	
 	protected abstract void startActivity();
 	public abstract int run(String[] args);
@@ -70,7 +70,7 @@ public abstract class HierarchicalConfigurationConsoleApplication <T extends Fil
 		return builder;
 	}
 	
-	public void setBuilder(FileBasedConfigurationBuilder<T> builder) {
+	protected void setBuilder(FileBasedConfigurationBuilder<T> builder) {
 		this.builder = builder;
 	}
 	
@@ -78,7 +78,7 @@ public abstract class HierarchicalConfigurationConsoleApplication <T extends Fil
 		return parameters;
 	}
 	
-	public void setParameters(Parameters parameters) {
+	protected void setParameters(Parameters parameters) {
 		this.parameters = parameters;
 	}
 	
@@ -86,7 +86,7 @@ public abstract class HierarchicalConfigurationConsoleApplication <T extends Fil
 		return applicationConfiguration;
 	}
 	
-	public void setApplicationConfiguration(T applicationConfiguration) {
+	protected void setApplicationConfiguration(T applicationConfiguration) {
 		this.applicationConfiguration = applicationConfiguration;
 	}
 	

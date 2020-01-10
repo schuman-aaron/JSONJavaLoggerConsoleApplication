@@ -72,7 +72,7 @@ public class HierarchicalConfigurationConsoleApplicationTest{
 			testApplication.setApplicationConfiguration(mockApplicationConfiguration);
 			testApplication.setBuilder(mockBuilder);
 			testApplication.setParameters(mockParameters);
-			testApplication.setReturnCode(getDefaultInt());
+			testApplication.setReturnCode(Constants.getSuccessCode());
 			
 			MockitoAnnotations.initMocks(testApplication);
 		}
@@ -87,7 +87,7 @@ public class HierarchicalConfigurationConsoleApplicationTest{
 			} catch (ConfigurationException e) {
 				throw new AssertionError(e);
 			}
-			assertTrue("Unexpected return code provided\n\rExpected: " + getDefaultInt() + "\n\r Actual: " + testApplication.getReturnCode(), getDefaultInt() == testApplication.getReturnCode());
+			assertTrue("Unexpected return code provided\n\rExpected: " + Constants.getSuccessCode() + "\n\r Actual: " + testApplication.getReturnCode(), Constants.getSuccessCode() == testApplication.getReturnCode());
 			verify(mockBuilder, times(1)).configure(any(BuilderParameters.class));
 			verify(mockParameters, times(1)).hierarchical();
 			verify(mockHierarchicalParameters, times(1)).setFile(any(File.class));

@@ -4,9 +4,9 @@ import java.net.URI;
 import java.time.format.DateTimeFormatter;
 
 public class TestConstants {
-	private static final String CONSTANT_DATETIME = "2019-01-01 00:00:00.0000";
+	private static final String CONSTANT_DATETIME = "2019-01-01-00.00.00.0000";
 	
-	private static final String DATETIME_STRING_FORMAT = "uuuu-MM-dd HH:mm:ss.SSSS";
+	private static final String DATETIME_STRING_FORMAT = "uuuu-MM-dd-HH.mm.ss.SSSS";
 
 	private static final String DEFAULT_STRING = "Default String";
 	
