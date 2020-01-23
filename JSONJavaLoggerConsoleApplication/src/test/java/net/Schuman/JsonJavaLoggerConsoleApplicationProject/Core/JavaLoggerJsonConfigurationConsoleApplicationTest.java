@@ -244,7 +244,9 @@ public class JavaLoggerJsonConfigurationConsoleApplicationTest {
 		@Test
 		public void testInitializeLoggerSuccess() {
 			try {
-				PowerMockito.doReturn(mockLogger).when(LoggerProxy.class, "getLogger", anyString());
+				PowerMockito.doReturn(Logger.getLogger(getDefaultString())).when(LoggerProxy.class, "getLogger", anyString());
+				defaultInitializeHandlerMockSettings();
+				testApplication.initializeHandler();
 				testApplication.initializeLogger();
 				assertTrue("Unexpected return code provided\nExpected: " + Constants.getSuccessCode() + "\n Actual: " + testApplication.getReturnCode(), Constants.getSuccessCode() == testApplication.getReturnCode());
 				//PowerMockito.verifyStatic(LoggerProxy.class, times(1));
