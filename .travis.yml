@@ -1,5 +1,6 @@
 language: java
 jdk: oraclejdk11
-script: cd JSONJavaLoggerConsoleApplication
-    ant build
+script: 
+- cd JSONJavaLoggerConsoleApplication
+- ant build
 sudo: false
