@@ -3,7 +3,7 @@ package net.Schuman.JsonJavaLoggerConsoleApplicationProject.Core;
 public class Constants {
 	private static final String FORMATTING_CHARACTER = "    \t";
 	
-	private static final String DATETIME_STRING_FORMAT2 = "uuuu-MM-dd-HH.mm.ss.SSSS";
+	private static final String DATETIME_STRING_FORMAT = "uuuu-MM-dd-HH.mm.ss.SSSS";
 	
 	private static final String EXECUTION_DIRECTORY = "user.dir";
 	
@@ -11,7 +11,7 @@ public class Constants {
 	
 	private static final String LOG_FILE_NAME = "Log File Name";
 	
-	private static final String LOGGER_NAME = "Java Logger";
+	private static final String LOGGER_NAME = "Java Logger Name";
 	
 	
 	private static final int INPUT_ARGUMENT_EXPECTED_VALUE = 1;
@@ -21,6 +21,8 @@ public class Constants {
 	// [start] Error Codes
 	
 	private static final int SUCCESS_CODE = 0;
+	
+	private static final int UNKOWN_ERROR_CODE = 2;
 	
 	private static final int INPUT_ARGUMENT_ERROR_CODE = 10;
 	
@@ -47,7 +49,7 @@ public class Constants {
 	}
 
 	public static String getDatetimeStringFormat() {
-		return DATETIME_STRING_FORMAT2;
+		return DATETIME_STRING_FORMAT;
 	}
 
 	public static String getExecutionDirectory() {
@@ -112,5 +114,9 @@ public class Constants {
 
 	public static String getLoggerName() {
 		return LOGGER_NAME;
+	}
+
+	public static int getUnkownErrorCode() {
+		return UNKOWN_ERROR_CODE;
 	}
 }

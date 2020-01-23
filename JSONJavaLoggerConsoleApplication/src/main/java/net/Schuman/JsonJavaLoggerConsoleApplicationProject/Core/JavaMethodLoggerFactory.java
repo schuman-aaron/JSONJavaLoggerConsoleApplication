@@ -2,6 +2,13 @@ package net.Schuman.JsonJavaLoggerConsoleApplicationProject.Core;
 
 import java.util.logging.Logger;
 
+/**
+ * 
+ * @author Aaron Schuman
+ * 
+ * A factory that creates {@link JavaMethodLogger Java method loggers}.
+ *
+ */
 public class JavaMethodLoggerFactory implements IMethodLoggerFactory<JavaMethodLogger> {
 
 	private Logger logger;
@@ -13,6 +20,9 @@ public class JavaMethodLoggerFactory implements IMethodLoggerFactory<JavaMethodL
 		this.className = className;
 	}
 
+	/**
+	 * Creates a method logger
+	 */
 	public JavaMethodLogger createMethodLogger(String methodName) {
 		return new JavaMethodLogger(logger, className, methodName);
 	}

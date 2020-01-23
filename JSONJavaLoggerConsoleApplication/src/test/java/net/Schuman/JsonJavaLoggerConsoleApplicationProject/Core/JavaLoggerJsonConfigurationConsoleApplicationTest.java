@@ -61,7 +61,11 @@ public class JavaLoggerJsonConfigurationConsoleApplicationTest {
 		@Mock
 		private LoggerProxy mockProxyLogger;
 		
+		@Mock
+		private JavaMethodLoggerFactoryFactory mockMethodLoggerFactoryFactory;
 		
+		@Mock
+		private JavaMethodLoggerFactory mockMethodLoggerFactory;
 		
 		@Before
 		public void setUp() {
@@ -69,6 +73,8 @@ public class JavaLoggerJsonConfigurationConsoleApplicationTest {
 			mockLogHandler = mock(Handler.class);
 			mockLogger = mock(Logger.class);
 			mockProxyLogger = mock(LoggerProxy.class);
+			mockMethodLoggerFactoryFactory = mock(JavaMethodLoggerFactoryFactory.class);
+			mockMethodLoggerFactory = mock(JavaMethodLoggerFactory.class);
 			PowerMockito.mockStatic(LocalDateTimeProxy.class, Mockito.CALLS_REAL_METHODS);
 			PowerMockito.mockStatic(DateTimeFormatterProxy.class, Mockito.CALLS_REAL_METHODS);
 			PowerMockito.mockStatic(LoggerProxy.class, Mockito.CALLS_REAL_METHODS);
@@ -78,6 +84,9 @@ public class JavaLoggerJsonConfigurationConsoleApplicationTest {
 			testApplication.setApplicationConfiguration(mockJsonConfiguration);
 			testApplication.setReturnCode(Constants.getSuccessCode());
 			testApplication.setLogHandler(mockLogHandler);
+			testApplication.setLogger(mockLogger);
+			testApplication.setMethodLoggerFactoryFactory(mockMethodLoggerFactoryFactory);
+			testApplication.setMethodLoggerFactory(mockMethodLoggerFactory);
 		}
 		
 		@Test
@@ -184,7 +193,7 @@ public class JavaLoggerJsonConfigurationConsoleApplicationTest {
 		}
 		
 		@Test
-		public void testInitializeHandlerIllegalArgumentOfPattern() {
+		public void testInitializeHandlerFailureIllegalArgumentOfPattern() {
 			try {
 				defaultInitializeHandlerMockSettings();
 				PowerMockito.doThrow(new IllegalArgumentException()).when(DateTimeFormatterProxy.class, "ofPattern", anyString());
@@ -243,5 +252,68 @@ public class JavaLoggerJsonConfigurationConsoleApplicationTest {
 			} catch (Exception e) {
 				throw new AssertionError(e.getMessage());
 			}
+		}
+		
+		@Test
+		public void testInitializeLoggerFailureNullPointer() {
+			try {
+				PowerMockito.doThrow(new NullPointerException()).when(LoggerProxy.class, "getLogger", anyString());
+				testApplication.initializeLogger();
+				throw new AssertionError("Unexpected successful execution");
+			} catch(NullPointerException e) {
+				assertTrue("Unexpected return code provided\nExpected: " + Constants.getNullPointerErrorCode() + "\n Actual: " + testApplication.getReturnCode(), Constants.getNullPointerErrorCode() == testApplication.getReturnCode());
+			} catch (Exception e) {
+				throw new AssertionError(e.getMessage());
+			}
+		}
+		
+		@Test
+		public void testInitializeLoggerFactoryFactorySuccess() {
+			when(mockLogger.getLevel()).thenReturn(Level.ALL);
+			when(mockLogger.getName()).thenReturn(Constants.getLoggerName());
+			testApplication.InitializeMethodLoggerFactoryFactory();
+			assertTrue("Method logger factory factory returned null",  testApplication.getMethodLoggerFactoryFactory() != null);
+			assertTrue("Logger returned null",  testApplication.getMethodLoggerFactoryFactory().getLogger() != null);
+			assertTrue("Unexpected level was provided\nExpected: " + Level.ALL + "\nActual: " + testApplication.getMethodLoggerFactoryFactory().getLogger().getLevel(),testApplication.getMethodLoggerFactoryFactory().getLogger().getLevel().equals(Level.ALL));
+			assertTrue("Unexpected logger name was provided\nExpected: " + Constants.getLoggerName() + "\nActual: " + testApplication.getMethodLoggerFactoryFactory().getLogger().getName(),testApplication.getMethodLoggerFactoryFactory().getLogger().getName().contentEquals(Constants.getLoggerName()));
+		}
+		
+		@Test
+		public void testConfigureLoggerSuccess() {
+			defaultLoggerMockSettings();
+			testApplication.configureLogger();
+			assertTrue("Unexpected return code provided\nExpected: " + Constants.getSuccessCode() + "\n Actual: " + testApplication.getReturnCode(), Constants.getSuccessCode() == testApplication.getReturnCode());
+			assertTrue("Method logger factory returned null", testApplication.getMethodLoggerFactory() != null);
+			assertTrue("Unexpected level was provided\nExpected: " + Level.ALL + "\nActual: " + testApplication.getMethodLoggerFactory().getLogger().getLevel(), testApplication.getMethodLoggerFactory().getLogger().getLevel().equals(Level.ALL));
+			assertTrue("Unexpected logger name was provided\nExpected: " + TestConstants.getDefaultString() + "\nActual: " + testApplication.getMethodLoggerFactory().getLogger().getName(), testApplication.getMethodLoggerFactory().getLogger().getName().contentEquals(TestConstants.getDefaultString()));
+			verify(mockLogger, times(1)).addHandler(any(Handler.class));
+			verify(mockLogger, times(1)).setLevel(any(Level.class));
+		}
+		
+		@Test
+		public void testConfigureLoggerFailureSecurity() {
+			defaultLoggerMockSettings();
+			doThrow(new SecurityException()).when(mockLogger).addHandler(any(Handler.class));
+			try {
+				testApplication.configureLogger();
+				throw new AssertionError("Unexpected successful execution");
+			} catch(SecurityException e) {
+				assertTrue("Unexpected return code provided\nExpected: " + Constants.getSecurityErrorCode() + "\n Actual: " + testApplication.getReturnCode(), Constants.getSecurityErrorCode() == testApplication.getReturnCode());
+				assertTrue("Method logger factory returned null", testApplication.getMethodLoggerFactory() != null);
+				assertTrue("Unexpected level was provided\nExpected: " + Level.ALL + "\nActual: " + testApplication.getMethodLoggerFactory().getLogger().getLevel(), testApplication.getMethodLoggerFactory().getLogger().getLevel().equals(Level.ALL));
+				assertTrue("Unexpected logger name was provided\nExpected: " + TestConstants.getDefaultString() + "\nActual: " + testApplication.getMethodLoggerFactory().getLogger().getName(), testApplication.getMethodLoggerFactory().getLogger().getName().contentEquals(TestConstants.getDefaultString()));
+				verify(mockLogger, times(1)).addHandler(any(Handler.class));
+				verify(mockLogger, times(0)).setLevel(any(Level.class));
+			}
+		}
+		
+		public void defaultLoggerMockSettings() {
+			testApplication.setMethodLoggerFactory(null);
+			when(mockMethodLoggerFactoryFactory.createMethodLoggerFactory(anyString())).thenReturn(mockMethodLoggerFactory);
+			when(mockLogHandler.getLevel()).thenReturn(Level.ALL);
+			when(mockLogHandler.getEncoding()).thenReturn(null);
+			when(mockLogger.getName()).thenReturn(TestConstants.getDefaultString());
+			when(mockLogger.getLevel()).thenReturn(Level.ALL);
+			when(mockMethodLoggerFactory.getLogger()).thenReturn(mockLogger);
 		}
 }

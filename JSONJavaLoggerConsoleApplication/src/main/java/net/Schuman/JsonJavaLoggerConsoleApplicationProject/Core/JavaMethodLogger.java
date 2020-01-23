@@ -3,6 +3,14 @@ package net.Schuman.JsonJavaLoggerConsoleApplicationProject.Core;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * 
+ * @author Aaron Schuman
+ * <p>
+ * A Java method logger object uses the {@link Logger Java logger} to log the entry and exit of a method.
+ *
+ */
+
 public class JavaMethodLogger implements AutoCloseable {
 
 	private Logger logger;
@@ -16,6 +24,10 @@ public class JavaMethodLogger implements AutoCloseable {
 		className = newClassName;
 	}
 	
+	/**
+	 * Logs that the application has exited the method 
+	 * @throws Exception
+	 */
 	public void close() throws Exception {
 		logger.exiting(className, methodName);
 	}
@@ -44,6 +56,9 @@ public class JavaMethodLogger implements AutoCloseable {
 		this.className = className;
 	}
 
+	/**
+	 * Logs that the application has entered the method
+	 */
 	public void logEntry() {
 		logger.entering(className, methodName);
 	}

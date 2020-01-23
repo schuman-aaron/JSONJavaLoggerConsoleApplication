@@ -11,6 +11,16 @@ import java.nio.file.InvalidPathException;
 
 import javax.naming.ConfigurationException;
 
+/**
+ * 
+ * @author Aaron Schuman
+ * <p>
+ * @param <T> A file based configuration class
+ * <p>
+ *  A hierarchical configuration console application object is used to instantiate {@link T} and configure {@link FileBasedConfigurationBuilder}.
+ * <p>
+ * The meaning of the return codes are specified in the {@link Constants} class.
+ */
 public abstract class HierarchicalConfigurationConsoleApplication <T extends FileBasedConfiguration> implements IConsoleApplication {
 
 	private FileBasedConfigurationBuilder<T> builder;
