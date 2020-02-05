@@ -23,7 +23,7 @@ public class BaseFormatter extends Formatter {
 	 */
 	public String format(LogRecord record) {
 		return "\r\n" +
-				LocalDateTimeProxy.now().format(DateTimeFormatterProxy.ofPattern(getDatetimeStringFormat())) + getFormattingCharacter() +
+				LocalDateTimeProxy.now().format(DateTimeFormatterProxy.ofPattern(getLogEntryDatetimeStringStringFormat())) + getFormattingCharacter() +
 				record.getLevel() + getFormattingCharacter() +
 				record.getThreadID()+ getFormattingCharacter() +
 				record.getSourceClassName()+ getFormattingCharacter() +

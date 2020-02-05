@@ -13,6 +13,7 @@ public class JavaMethodLoggerFactory implements IMethodLoggerFactory<JavaMethodL
 
 	private Logger logger;
 	private String className;
+	private JavaMethodLogger methodLogger;
 	
 	public JavaMethodLoggerFactory(Logger logger, String className) {
 		super();
@@ -24,7 +25,8 @@ public class JavaMethodLoggerFactory implements IMethodLoggerFactory<JavaMethodL
 	 * Creates a method logger
 	 */
 	public JavaMethodLogger createMethodLogger(String methodName) {
-		return new JavaMethodLogger(logger, className, methodName);
+		methodLogger = new JavaMethodLogger(logger, className, methodName); 
+		return methodLogger;
 	}
 
 	public Logger getLogger() {
@@ -41,6 +43,17 @@ public class JavaMethodLoggerFactory implements IMethodLoggerFactory<JavaMethodL
 
 	public void setClassName(String className) {
 		this.className = className;
+	}
+
+	@Override
+	public JavaMethodLogger createMethodLoggerAndLogEntry(String methodName) {
+		createMethodLogger(methodName);
+		logEntryOfMethodLogger();
+		return methodLogger;
+	}
+
+	protected void logEntryOfMethodLogger() {
+		methodLogger.logEntry();
 	}
 
 }

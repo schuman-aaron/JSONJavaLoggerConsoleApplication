@@ -8,6 +8,7 @@ package net.Schuman.JsonJavaLoggerConsoleApplicationProject.Core;
  * 
  * An interface for method logger factories regardless of the type of logger they use. A new method logger factory should be instantiated for each class.
  */
-public interface IMethodLoggerFactory <T extends AutoCloseable>{
+public interface IMethodLoggerFactory <T extends IMethodLogger>{
 	public T createMethodLogger(String methodName);
+	public T createMethodLoggerAndLogEntry(String methodName);
 }

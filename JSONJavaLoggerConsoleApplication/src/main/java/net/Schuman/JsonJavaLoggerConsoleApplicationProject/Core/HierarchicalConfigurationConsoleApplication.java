@@ -28,7 +28,7 @@ public abstract class HierarchicalConfigurationConsoleApplication <T extends Fil
 	private T applicationConfiguration;
 	private int returnCode = getSuccessCode();
 	
-	protected abstract void startActivity();
+	protected abstract void startActivity() throws Exception;
 	public abstract int run(String[] args);
 	protected abstract void initializeLogger();
 	protected abstract void initializeBuilder();

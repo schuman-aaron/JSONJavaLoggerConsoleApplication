@@ -26,7 +26,9 @@ import org.apache.commons.configuration2.ex.ConfigurationException;
  *     
  *     Log Full File Path: The relative or absolute path to the directory where the log files should be created.
  *     
- *     Log File Name: The value to be concatenated to the end of the log file name</pre>
+ *     Log File Name: The value to be concatenated to the end of the log file name
+ *     
+ *     Log Date Time String Format: The format of the date time the output log file will use</pre>
  * <p>
  * The meaning of the return codes are specified in the {@link Constants} class.
  */
@@ -38,7 +40,7 @@ public abstract class JavaLoggerJsonConfigurationConsoleApplication extends Hier
 	private JavaMethodLoggerFactoryFactory methodLoggerFactoryFactory;
 	private JavaMethodLoggerFactory methodLoggerFactory;
 
-	protected abstract void startActivity();
+	protected abstract void startActivity() throws Exception;
 
 	/**
 	 * Executes the application in its entirety. This method is intended to be the first method ran in the main method.
@@ -98,7 +100,7 @@ public abstract class JavaLoggerJsonConfigurationConsoleApplication extends Hier
 		try {
 			logHandler = new FileHandler(
 					getApplicationConfiguration().getString(Constants.getLogFullFilePath()) + 
-					LocalDateTimeProxy.now().format(DateTimeFormatterProxy.ofPattern(Constants.getDatetimeStringFormat())) + 
+					LocalDateTimeProxy.now().format(DateTimeFormatterProxy.ofPattern(getApplicationConfiguration().getString(Constants.getLogFileDateTimeStringFormat()))) + 
 					"-" + getApplicationConfiguration().getString(Constants.getLogFileName()) ,true
 					);
 		} catch (SecurityException e) {

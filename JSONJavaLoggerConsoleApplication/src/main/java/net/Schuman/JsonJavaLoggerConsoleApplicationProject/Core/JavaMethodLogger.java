@@ -11,7 +11,7 @@ import java.util.logging.Logger;
  *
  */
 
-public class JavaMethodLogger implements AutoCloseable {
+public class JavaMethodLogger implements IMethodLogger {
 
 	private Logger logger;
 	private String methodName;
