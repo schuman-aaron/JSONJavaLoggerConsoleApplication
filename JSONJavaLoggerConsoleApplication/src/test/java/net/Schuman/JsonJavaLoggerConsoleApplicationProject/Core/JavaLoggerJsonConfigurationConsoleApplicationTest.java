@@ -97,7 +97,7 @@ public class JavaLoggerJsonConfigurationConsoleApplicationTest {
 				assertTrue("Unexpected return code provided\nExpected: " + Constants.getSuccessCode() + "\n Actual: " + testApplication.getReturnCode(), Constants.getSuccessCode() == testApplication.getReturnCode());
 				assertTrue("Unexpected encoding provided\nExpected: null\nActual:"+ testApplication.getLogHandler().getEncoding(), testApplication.getLogHandler().getEncoding() == null);
 				assertTrue("Unexpected level provided\nExpected:" + Level.ALL + "\nActual:"+ testApplication.getLogHandler().getLevel(), testApplication.getLogHandler().getLevel() == Level.ALL);
-				verify(mockJsonConfiguration, times(2)).getString(anyString());
+				verify(mockJsonConfiguration, times(3)).getString(anyString());
 				//PowerMockito.verifyStatic(LocalDateTimeProxy.class, times(1));
 				LocalDateTimeProxy.now();
 				//PowerMockito.verifyStatic(DateTimeFormatterProxy.class, times(1));
@@ -182,7 +182,7 @@ public class JavaLoggerJsonConfigurationConsoleApplicationTest {
 				throw new AssertionError("Unexpected successful execution");
 			} catch (DateTimeException e) {
 				assertTrue("Unexpected return code provided\nExpected: " + Constants.getDateTimeErrorCode() + "\n Actual: " + testApplication.getReturnCode(), Constants.getDateTimeErrorCode() == testApplication.getReturnCode());
-				verify(mockJsonConfiguration, times(1)).getString(anyString());
+				verify(mockJsonConfiguration, times(2)).getString(anyString());
 				//PowerMockito.verifyStatic(LocalDateTimeProxy.class, times(1));
 				LocalDateTimeProxy.now();
 				//PowerMockito.verifyStatic(DateTimeFormatterProxy.class, times(1));
@@ -201,7 +201,7 @@ public class JavaLoggerJsonConfigurationConsoleApplicationTest {
 				throw new AssertionError("Unexpected successful execution");
 			} catch (IllegalArgumentException e) {
 				assertTrue("Unexpected return code provided\nExpected: " + Constants.getIllegalArgumentErrorCode() + "\n Actual: " + testApplication.getReturnCode(), Constants.getIllegalArgumentErrorCode() == testApplication.getReturnCode());
-				verify(mockJsonConfiguration, times(1)).getString(anyString());
+				verify(mockJsonConfiguration, times(2)).getString(anyString());
 				//PowerMockito.verifyStatic(LocalDateTimeProxy.class, times(1));
 				LocalDateTimeProxy.now();
 				//PowerMockito.verifyStatic(LocalDateTimeProxy.class, times(1));
