@@ -4,4 +4,4 @@ branches:
   - 2019-12-05_-_0.0.2-Enhancement-Initial_Project-AS
 image: WMF 5
 build_script:
-- cmd: ant -f ./JSONJavaLoggerConsoleApplication/build.xml
+- cmd: java -jar JSONJavaLoggerConsoleApplicationProject.jar
