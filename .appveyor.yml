@@ -4,4 +4,4 @@ branches:
   - 2019-12-05_-_0.0.2-Enhancement-Initial_Project-AS
 image: WMF 5
 build_script:
-- cmd: javac ./src/main/java/net/Schuman/JsonJavaLoggerConsoleApplicationProject/Core/*.java
+- cmd: javac ./JSONJavaLoggerConsoleApplication/src/main/java/net/Schuman/JsonJavaLoggerConsoleApplicationProject/Core/*.java
