@@ -1,7 +1,0 @@
-version: 1.0.{build}
-branches:
-  only:
-  - 2019-12-05_-_0.0.2-Enhancement-Initial_Project-AS
-image: WMF 5
-build_script:
-- cmd: java -jar JSONJavaLoggerConsoleApplicationProject.jar

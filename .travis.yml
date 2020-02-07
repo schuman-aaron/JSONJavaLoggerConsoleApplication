@@ -1,7 +1,0 @@
-language: java
-jdk: oraclejdk11
-script: 
-- cd JSONJavaLoggerConsoleApplication
-- ant build
-os: windows
-sudo: false
