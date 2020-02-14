@@ -11,6 +11,8 @@ import org.apache.commons.configuration2.JSONConfiguration;
 import org.apache.commons.configuration2.builder.FileBasedConfigurationBuilder;
 import org.apache.commons.configuration2.ex.ConfigurationException;
 
+import net.schuman.JavaMethodLoggerFactory.JavaMethodLoggerFactory.JavaMethodLoggerFactory;
+
 /**
  * 
  * @author Aaron Schuman 
