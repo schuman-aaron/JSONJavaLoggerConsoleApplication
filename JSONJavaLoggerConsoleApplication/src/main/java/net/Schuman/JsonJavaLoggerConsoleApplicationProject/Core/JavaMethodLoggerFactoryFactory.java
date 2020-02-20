@@ -2,6 +2,9 @@ package net.Schuman.JsonJavaLoggerConsoleApplicationProject.Core;
 
 import java.util.logging.Logger;
 
+import net.schuman.JavaMethodLoggerFactory.JavaMethodLoggerFactory.JavaMethodLogger;
+import net.schuman.JavaMethodLoggerFactory.JavaMethodLoggerFactory.JavaMethodLoggerFactory;
+
 /**
  * 
  * @author Aaron Schuman

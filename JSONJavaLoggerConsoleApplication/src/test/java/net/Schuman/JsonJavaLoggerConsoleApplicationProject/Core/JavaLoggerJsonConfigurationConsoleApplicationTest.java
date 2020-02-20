@@ -15,6 +15,9 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.api.mockito.internal.mockcreation.RuntimeExceptionProxy;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
+
+import net.schuman.JavaMethodLoggerFactory.JavaMethodLoggerFactory.JavaMethodLoggerFactory;
+
 import org.mockito.BDDMockito;
 import org.mockito.BDDMockito.*;
 

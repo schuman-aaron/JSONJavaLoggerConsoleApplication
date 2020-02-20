@@ -1,5 +1,8 @@
 package net.Schuman.JsonJavaLoggerConsoleApplicationProject.Core;
 
+import net.schuman.JavaMethodLoggerFactory.JavaMethodLoggerFactory.IMethodLogger;
+import net.schuman.JavaMethodLoggerFactory.JavaMethodLoggerFactory.IMethodLoggerFactory;
+
 /**
  * 
  * @author Aaron Schuman

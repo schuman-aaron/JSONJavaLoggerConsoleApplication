@@ -11,7 +11,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.internal.verification.MockAwareVerificationMode;
 
-import net.Schuman.JsonJavaLoggerConsoleApplicationProject.Core.JavaMethodLogger;
+import net.schuman.JavaMethodLoggerFactory.JavaMethodLoggerFactory.JavaMethodLogger;
 
 import static net.Schuman.JsonJavaLoggerConsoleApplicationProject.Core.TestConstants.*;
 import static org.junit.Assert.assertEquals;
